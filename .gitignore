@@ -1,0 +1,5 @@
+# Ignoring Vagrant files
+.vagrant/
+
+# MacOS folders
+.DS_Store
