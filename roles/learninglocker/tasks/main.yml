@@ -9,3 +9,25 @@
 - name: LearningLocker installation
   include: install.yml
   when: not ll.stat.exists
+
+
+# To test it:
+# >>> with open ("/var/www/learninglocker/app/config/database.php", "r") as myfile:
+# ...     data=myfile.read(
+# >>> m = re.search(r"('mongodb'\s*=>\s*array.*(?:\n.+)*\s*'username'\s*=>\s*).*(,)", data, re.MULTILINE)
+# >>> m.groups()
+
+- name: Configure LearningLocker database's configuration details
+  replace:
+    dest: "{{ ll_path }}/app/config/database.php"
+    regexp: ('mongodb'\s*=>\s*array.*(?:\n.+)*\s*'{{ item.name }}'\s*=>\s*).+(,)
+    replace: \1'{{ item.value }}'\2
+    backup: yes
+  with_items:
+    - { name: 'database', value: '{{ mongodb.database }}' }
+    - { name: 'username', value: '{{ mongodb_private.user }}' }
+    - { name: 'password', value: '{{ mongodb_private.password }}' }
+  tags:
+   - configuration
+   - learninglocker
+   - database
