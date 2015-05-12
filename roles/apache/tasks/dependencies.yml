@@ -1,0 +1,82 @@
+---
+
+
+- name: Install Remi Collet Repository
+  yum: name="{{ item }}" state=present
+  with_items:
+   - "http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm"
+   - "http://rpms.famillecollet.com/enterprise/remi-release-7.rpm"
+  tags:
+   - install
+   - repository
+   - remi collet
+
+
+- name: Install Apache, PHP and its dependencies
+  yum: name="{{ item }}" enablerepo=remi,remi-php56 state=present
+  with_items:
+    - httpd
+    - php
+    - php-common
+    - php-cli
+    - php-pear
+    - php-mysqlnd
+    - php-pecl-mongo
+    - php-gd
+    - php-mbstring
+    - php-mcrypt
+    - php-xml
+  tags:
+   - install
+   - apache
+   - php
+
+
+- name: Install NodeJs and Node Package Manager (NPM)
+  yum: name="{{ item }}" state=present
+  with_items:
+    - nodejs
+    - npm
+  tags:
+   - install
+   - nodejs
+   - npm
+
+
+- name: Install Bower
+  npm: name=bower global=yes
+  tags:
+   - install
+   - bower
+
+
+- name: Install Git
+  yum: name=git state=present
+  tags:
+   - install
+   - git
+
+
+- name: Install DeltaRPM
+  yum: name=deltarpm state=present
+  tags:
+   - install
+   - deltarpm
+
+
+- name: Update CentOS
+  yum: name=* state=latest
+  tags:
+   - update
+   - centos
+
+
+- name: Install Composer and set global launch
+  shell: "{{ item }}"
+  with_items:
+    - "curl -sS https://getcomposer.org/installer | php"
+    - "mv composer.phar /usr/local/bin/composer"
+  tags:
+   - install
+   - composer
+   - global

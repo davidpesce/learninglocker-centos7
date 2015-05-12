@@ -1,0 +1,25 @@
+---
+
+- name: Install MongoDB
+  yum: name="{{ item }}" state=present
+  become: True
+  with_items:
+   - mongodb
+   - mongodb-server
+  tags:
+   - install
+   - mongodb
+
+
+- name: Start MongoDB and enable automatic startup
+  shell: "systemctl {{ item }} mongod"
+  become: True
+  with_items:
+   - start
+   - enable
+  tags:
+   - start
+   - enable
+   - mongo
+   - daemon
+   - systemctl

@@ -1,0 +1,11 @@
+---
+
+# file: database.yml
+
+- name: Install and configure MongoDB
+  hosts: database
+  roles:
+    - mongodb
+  tags:
+    - mongodb
+    - database
