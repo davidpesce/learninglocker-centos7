@@ -4,4 +4,16 @@
 
 Note that there is another Vagrant and Ansible script to provision one Ubuntu VM with LearningLocker using [nginx](http://nginx.com/) which can be found [here](https://github.com/rael9/learninglocker-vagrant).
 
-Note also that I just translated the steps described [here](https://gist.github.com/davidpesce/7d6e1b81594ecbc72311) to Ansible tasks. Therefore, part of the credit goes to [David Pesce](https://gist.github.com/davidpesce).
+Typical usage
+-------------
+
+To create a virtual machine and provision it with LearningLocker, simply run:
+
+    vagrant up
+
+
+Credits
+-------
+
+To create the Ansible playbook, I translated the steps described by [David Pesce](https://gist.github.com/davidpesce) [here](https://gist.github.com/davidpesce/7d6e1b81594ecbc72311).
+Therefore, part of the credit goes to him.
