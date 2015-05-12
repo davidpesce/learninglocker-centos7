@@ -1,0 +1,33 @@
+---
+
+
+- name: Create LearningLocker directory
+  file: path="{{ ll_path }}" owner=vagrant state=directory
+  become: True
+  tags:
+   - learninglocker
+   - directory
+
+
+- name: Clone LearningLocker
+  git:
+    repo: https://github.com/LearningLocker/learninglocker.git
+    dest: "{{ ll_path }}"
+  tags:
+   - git
+   - clone
+   - learninglocker
+
+
+- name: Avoid using git (just in case it is blocked by the firewall)
+  command: git config --global url."https://".insteadOf git://
+  tags:
+    - git
+    - config
+
+
+- name: Install LearningLocker
+  shell: composer install chdir="{{ ll_path }}"
+  tags:
+   - install
+   - learninglocker

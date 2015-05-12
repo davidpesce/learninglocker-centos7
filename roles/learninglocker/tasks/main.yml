@@ -1,0 +1,11 @@
+---
+
+
+- name: Check if LearningLocker is already installed
+  stat: path="{{ ll_path }}"
+  register: ll
+
+
+- name: LearningLocker installation
+  include: install.yml
+  when: not ll.stat.exists

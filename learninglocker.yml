@@ -6,6 +6,9 @@
   hosts: learninglocker
   roles:
     - apache
+    - learninglocker
+  vars_files:
+    - vars.secret.yml
   tags:
     - learninglocker
     - apache
