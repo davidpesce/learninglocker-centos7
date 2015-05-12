@@ -6,6 +6,8 @@
   hosts: database
   roles:
     - mongodb
+  vars_files:
+    - vars.secret.yml
   tags:
     - mongodb
     - database

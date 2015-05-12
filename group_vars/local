@@ -1,0 +1,5 @@
+
+
+# MongoDB's public configuration
+mongodb:
+  database: learninglocker

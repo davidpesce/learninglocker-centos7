@@ -6,6 +6,7 @@
   with_items:
    - mongodb
    - mongodb-server
+   - python-pymongo  # To create user afterwards
   tags:
    - install
    - mongodb
@@ -23,3 +24,13 @@
    - mongo
    - daemon
    - systemctl
+
+
+- name: Create user for LearningLocker database
+  # For some reason, mongodb_user does not work
+  #mongodb_user: database="{{ mongodb.database }}" name="{{ mongodb_private.user }}" password="{{ mongodb_private.password }}" state=present
+  shell: mongo {{ mongodb.database }} --eval 'db.createUser({user:"{{ mongodb_private.user }}",pwd:"{{ mongodb_private.password }}",roles:["readWrite"]})'
+  tags:
+   - mongodb
+   - user
+   - configure
