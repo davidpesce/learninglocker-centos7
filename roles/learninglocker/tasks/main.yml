@@ -31,3 +31,68 @@
    - configuration
    - learninglocker
    - database
+
+
+- name: Finalize LL MongoDB setup
+  command: php artisan migrate chdir="{{ ll_path }}"
+  tags:
+   - configuration
+   - learninglocker
+   - php
+   - artisan
+
+
+# Check other ways to generate it:
+#    http://www.howtogeek.com/howto/30184/10-ways-to-generate-a-random-password-from-the-command-line/
+- name: Generate 32 bits random key
+  shell: date +%s | sha256sum | base64 | head -c 32 ; echo
+  register: randomKey
+
+
+- name: Add 32 bit key to LearningLocker's configuration file
+  replace:
+    dest: "{{ ll_path }}/app/config/app.php"
+    regexp: $(\s*'key'\s*=>\s*').+(',)
+    replace: \1{{ randomKey.stdout }}\2
+    backup: yes
+  become: True
+  tags:
+   - configuration
+   - learninglocker
+   - database
+
+
+- name: Set Apache DocumentRoot and Directory Settings
+  template: src=learninglocker.conf.j2 dest=/etc/httpd/conf.d/learninglocker.conf
+  become: True
+  tags:
+   - configuration
+   - apache
+   - learninglocker
+
+
+- name: Restart Apache
+  command: systemctl restart httpd.service
+  become: True
+  tags:
+   - restart
+   - apache
+
+
+- name: Set ownership of directories to Apache
+  file: path="{{ ll_path }}" owner=apache group=apache recurse=yes
+  become: True
+  tags:
+   - ownership
+   - learninglocker
+   - apache
+
+
+- name: Create administrator
+  include: create_admin.yml
+  when: ll_admin is defined and ll_admin.username is defined and ll_admin.email is defined and ll_admin.password is defined 
+
+
+- name: Next steps
+  debug: msg="Please, go to the newly installed LearningLocker website and register your administrator user."
+  when: ll_admin is not defined or ll_admin.username is not defined or ll_admin.email is not defined or ll_admin.password is not defined

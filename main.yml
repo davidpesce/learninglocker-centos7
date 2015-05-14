@@ -2,5 +2,5 @@
 
 
 # file: main.yml
-- include: learninglocker.yml
 - include: database.yml
+- include: learninglocker.yml
