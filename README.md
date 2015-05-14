@@ -4,12 +4,41 @@
 
 Note that there is another Vagrant and Ansible script to provision one Ubuntu VM with LearningLocker using [nginx](http://nginx.com/) which can be found [here](https://github.com/rael9/learninglocker-vagrant).
 
-Typical usage
--------------
+## Typical usage
+
+In this section I explain three ways to install LearningLocker:
+
+ 1. Create one VM machine with LL installed
+ 2. Create two VM machines with LL installed: one for the webserver and the other for the database.
+ 3. Install LL in existing machine(s)
+
+### Use case 1. Create one VM machine
 
 To create a virtual machine and provision it with LearningLocker, simply run:
 
     vagrant up
+
+If the installation is completed successfully, you will be able to:
+
+ * Access LL through your web browser: http://192.168.35.2
+ * Connect to the machine: ```vagrant ssh```
+
+### Use case 2. Create two VM machines
+
+To create a virtual machine and provision it with LearningLocker, simply run:
+
+    MACHINES='./vagrant/two_machines' vagrant up
+
+If the installation is completed successfully, you will be able to:
+
+ * Access LL through your web browser: http://192.168.35.3
+ * Connect to the machines:
+  * ```vagrant ssh ll-web```
+  * ```vagrant ssh ll-db```
+
+### Use case 3. Install it in existing machine(s)
+
+For this, you will need to create an inventory file specifying the machines that you will use.
 
 
 Credits
