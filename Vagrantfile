@@ -3,20 +3,41 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
+machines_file = ENV['MACHINES']
+machines_file ||= './vagrant/one_machine'
+print machines_file
+require machines_file
 
-box = "chef/centos-7.0"
-memory = 1024
+
+# Assign machines to their Ansible groups
+def generate_ansible_groups(machines)
+	require 'set'
+	ansible_groups = {}
+	all = Set.new
+	machines.each do |m|
+	  m["ansible_groups"].each do |group|
+	    if not ansible_groups.has_key?(group)
+	      ansible_groups[group] = []
+	    end
+	    if not ansible_groups.has_key?("local:vars")
+	      ansible_groups["local:vars"] = []
+	    end
+	    ansible_groups[group].push(m["hostname"])
+	    all = all.add(group)
+	  end
+	end
+	ansible_groups["local:children"] = all.to_a
+	return ansible_groups
+end
+
 
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	config.vm.provision "ansible" do |ansible|
-		ansible.groups = {
-			"learninglocker" => ["machine"],
-			"database" => ["machine"],
-			"local:children" => ["learninglocker", "database"]
-		}
+		ansible.groups = generate_ansible_groups(MACHINES)
 		ansible.playbook = "main.yml"
+		ansible.extra_vars = { mongodb_host: MONGO_HOST }
 		# Useful during testing 
 		ansible.host_key_checking = false
 		# ansible.verbose = "vvvv"
@@ -31,13 +52,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	#   (Reason to disable it: In MacOS GuestAdditions trend to fail screwing the "up" or "reload".
 	config.vm.synced_folder ".", "/vagrant", disabled: true
 
-	config.vm.define "machine" do |node|
-		node.vm.box = box
-		node.vm.network "private_network", ip: "192.168.35.2"
-		node.vm.network "forwarded_port", guest: 80, host: 8082
-		node.vm.hostname = "learninglocker"
-		node.vm.provider :virtualbox do |vb|
-			vb.memory = memory
+	MACHINES.each do |m|
+		config.vm.define m["hostname"] do |node|
+			node.vm.box = m["box"]
+			node.vm.hostname = m["hostname"]
+			node.vm.network :private_network, ip: m["ip"]
+
+			m["ports"].each do |port|
+				node.vm.network :forwarded_port, guest: port[0], host: port[1]
+			end
+
+			node.vm.provider :virtualbox do |vb|
+				vb.cpus = m["cpus"]
+				vb.memory = m["memory"]
+			end
 		end
 	end
 end

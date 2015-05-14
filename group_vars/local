@@ -3,3 +3,4 @@
 # MongoDB's public configuration
 mongodb:
   database: learninglocker
+  host: "{{ mongodb_host | default('localhost')}}"
