@@ -44,7 +44,8 @@ If the installation is completed successfully, you will be able to:
 
 ### Use case 3. Install it in existing machine(s)
 
-For this, you will need to create an inventory file specifying the machines that you will use.
+First, you need to create an inventory file specifying the machines that you will use.
+The _inventories_ directory contains some sample files which can be used as inventory templates.
 
 Then, run Ansible as follows.
 
@@ -54,11 +55,11 @@ If the MongoDB will not run in the same machine as the web server, you should sp
 
     ansible-playbook --extra-vars={"mongodb_host":"[ip-of-the-machine]"} (...)
 
-To only provision the webserver run:
+To provision only the web server run:
 
     ansible-playbook (...) learninglocker.yml
 
-To only provision the database run:
+To provision only the database run:
 
     ansible-playbook (...) database.yml
 
