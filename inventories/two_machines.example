@@ -1,0 +1,16 @@
+# Sample inventory file for a LearningLocker installation in two machines:
+#   - machine1: where the web server and the web application will be installed.
+#   - machine2: where the MongoDB database will be installed and configured.
+
+machine1 ansible_ssh_host=192.168.1.3
+machine2 ansible_ssh_host=192.168.1.4 
+
+[learninglocker]
+machine1
+
+[database]
+machine2
+
+[local:children]
+learninglocker
+database

@@ -1,0 +1,13 @@
+# Sample inventory file with a unique machine where all the LearningLocker components will be installed.
+
+machine ansible_ssh_host=192.168.1.2 ansible_ssh_port=2222
+
+[learninglocker]
+machine
+
+[database]
+machine
+
+[local:children]
+learninglocker
+database
