@@ -12,11 +12,11 @@ Optionally, you might want to edit the files located in the _group\_vars_ or the
 
 ## Typical usage
 
-In this section I explain three ways to install LearningLocker:
+This section explains three ways to install LearningLocker:
 
- 1. Create one VM machine with LL installed
+ 1. Create one VM machine with LL installed.
  2. Create two VM machines with LL installed: one for the webserver and the other for the database.
- 3. Install LL in existing machines
+ 3. Install LL in existing machines.
 
 ### Use case 1. Create one VM machine
 
