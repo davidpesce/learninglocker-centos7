@@ -21,6 +21,18 @@
    - mongodb
 
 
+- name: Listen in all interfaces
+  replace:
+    dest: /etc/mongod.conf
+    regexp: '^(\s*bind_ip\s*=\s*127\.0\.0\.1\s*)$'
+    replace: '# \1'
+    backup: yes
+  become: True
+  tags:
+   - configure
+   - mongodb
+
+
 - name: Start MongoDB and enable automatic startup
   shell: "systemctl {{ item }} mongod"
   become: True
