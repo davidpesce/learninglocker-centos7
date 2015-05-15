@@ -5,7 +5,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 machines_file = ENV['MACHINES']
 machines_file ||= './vagrant/one_machine'
-print machines_file
 require machines_file
 
 
