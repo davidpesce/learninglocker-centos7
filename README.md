@@ -46,9 +46,26 @@ If the installation is completed successfully, you will be able to:
 
 For this, you will need to create an inventory file specifying the machines that you will use.
 
+Then, run Ansible as follows.
 
-Credits
--------
+    ansible-playbook --private-key=[path_to_private_key] --user=[remote_user] -i [path_to_inventory_file] main.yml
 
-To create the Ansible playbook, I translated the steps described by [David Pesce](https://gist.github.com/davidpesce) [here](https://gist.github.com/davidpesce/7d6e1b81594ecbc72311).
+If the MongoDB will not run in the same machine as the web server, you should specify it in the following way:
+
+    ansible-playbook --extra-vars={"mongodb_host":"[ip-of-the-machine]"} (...)
+
+To only provision the webserver run:
+
+    ansible-playbook (...) learninglocker.yml
+
+To only provision the database run:
+
+    ansible-playbook (...) database.yml
+
+
+# Acknowledgements
+
+This playbook was made as part of the [FORGE project](http://ict-forge.eu/).
+
+To create the Ansible playbook, the steps described by [David Pesce](https://gist.github.com/davidpesce) [here](https://gist.github.com/davidpesce/7d6e1b81594ecbc72311) were a great help.
 Therefore, part of the credit goes to him.
