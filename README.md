@@ -8,7 +8,7 @@ Note that there is another Vagrant and Ansible script to provision one Ubuntu VM
 
 Copy _vars.secret.yml.edit_ file to  _vars.secret.yml_ and edit it following the instructions detailed in the file.
 
-Optionally, you might want to edit the files located in the _group\_vars_ or _vagrant_ directories.
+Optionally, you might want to edit the files located in the _group\_vars_ or the _vagrant_ directories.
 
 ## Typical usage
 
