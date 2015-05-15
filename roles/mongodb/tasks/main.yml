@@ -1,5 +1,14 @@
 ---
 
+- name: Install EPEL Repository
+  yum: name="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm" state=present
+  become: True
+  tags:
+   - install
+   - repository
+   - epel
+
+
 - name: Install MongoDB
   yum: name="{{ item }}" state=present
   become: True
@@ -27,7 +36,7 @@
 
 
 - name: Check if user already exists
-  shell:  mongo {{ mongodb.database }} --eval 'db.system.users.find({user:"{{ mongodb_private.user }}"}).count()'
+  shell: mongo {{ mongodb.database }} --eval 'db.system.users.find({user:"{{ mongodb_private.user }}"}).count()'
   register: muser
   tags:
    - mongodb
