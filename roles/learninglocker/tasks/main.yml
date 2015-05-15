@@ -19,14 +19,17 @@
 
 - name: Configure LearningLocker database's configuration details
   replace:
-    dest: "{{ ll_path }}/app/config/database.php"
-    regexp: ('mongodb'\s*=>\s*array.*(?:\n.+)*\s*'{{ item.name }}'\s*=>\s*).+(,)
-    replace: \1'{{ item.value }}'\2
+    dest: "{{ ll_path }}/{{ item[0] }}"
+    regexp: ('mongodb'\s*=>\s*array.*(?:\n.+)*\s*'{{ item[1].name }}'\s*=>\s*).+?(,?\s*)$
+    replace: \1'{{ item[1].value }}'\2
     backup: yes
-  with_items:
-    - { name: 'database', value: '{{ mongodb.database }}' }
-    - { name: 'username', value: '{{ mongodb_private.user }}' }
-    - { name: 'password', value: '{{ mongodb_private.password }}' }
+  become: True
+  with_nested:
+    - [ 'app/config/local/database.php', 'app/config/database.php']
+    - [ { name: 'database', value: '{{ mongodb.database }}' },
+        { name: 'host', value: '{{ mongodb.host }}' },
+        { name: 'username', value: '{{ mongodb_private.user }}' },
+        { name: 'password', value: '{{ mongodb_private.password }}' } ]
   tags:
    - configuration
    - learninglocker
