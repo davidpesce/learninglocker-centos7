@@ -2,7 +2,7 @@
 
 
 - name: Create LearningLocker directory
-  file: path="{{ ll_path }}" state=directory
+  file: path="{{ ll_path }}" owner="{{ ansible_ssh_user }}" state=directory
   become: True
   tags:
    - learninglocker
