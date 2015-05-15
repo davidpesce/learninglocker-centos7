@@ -1,7 +1,8 @@
 # LearningLocker on CentOS7
 
-This project contains [Vagrant](https://www.vagrantup.com/) and [Ansible](http://www.ansible.com/) scripts to provision one (or more) [CentOS7](https://www.centos.org/) machines to use [LearningLocker](http://learninglocker.net/). This LearningLocker installation will depend on [Apache2](http://httpd.apache.org/) and [MongoDB](https://www.mongodb.org/).
+This project contains [Vagrant](https://www.vagrantup.com/) and [Ansible](http://www.ansible.com/) scripts to provision [CentOS7](https://www.centos.org/) machines with [LearningLocker](http://learninglocker.net/). The Ansible playbook has been successfully used with [RHEL 7](https://access.redhat.com/products/red-hat-enterprise-linux/) too.
 
+This LearningLocker installation will depend on [Apache2](http://httpd.apache.org/) and [MongoDB](https://www.mongodb.org/).
 Note that there is another Vagrant and Ansible script to provision one Ubuntu VM with LearningLocker using [nginx](http://nginx.com/) which can be found [here](https://github.com/rael9/learninglocker-vagrant).
 
 ## Configuration
