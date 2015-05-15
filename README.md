@@ -64,6 +64,13 @@ To provision only the database run:
     ansible-playbook (...) database.yml
 
 
+# Troubleshooting
+
+ * Ansible throws an error which says: ```Missing become password```.
+  * What happens? The remote user you are running needs to introduce a password to become sudo.
+  * Quick solution: Add the ```--ask-become-pass``` parameter.
+
+
 # Acknowledgements
 
 This playbook was made as part of the [FORGE project](http://ict-forge.eu/).
