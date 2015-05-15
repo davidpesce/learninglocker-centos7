@@ -2,7 +2,7 @@
 
 
 - name: Create LearningLocker directory
-  file: path="{{ ll_path }}" owner=vagrant state=directory
+  file: path="{{ ll_path }}" state=directory
   become: True
   tags:
    - learninglocker
