@@ -14,6 +14,7 @@
     replace: \1'{{ item[1].value }}'\2
     backup: yes
   become: True
+  ignore_errors: True  # One database.php file might not exist :-?
   with_nested:
     - [ 'app/config/local/database.php', 'app/config/database.php']
     - [ { name: 'database', value: '{{ mongodb.database }}' },
