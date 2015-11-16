@@ -47,7 +47,7 @@
 # TODO Further testing needed to find a better automatic alternative.
 # The previous task does not seem to work behind a proxy and it does
 # not give any error.
-- name: Warning: Problems installing LearningLocker?
+- name: "Warning: Problems installing LearningLocker? Try the following command."
   debug: msg="cd {{ ll_path }}; php composer.phar install"
   tags:
    - install
