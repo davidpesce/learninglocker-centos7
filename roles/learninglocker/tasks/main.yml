@@ -2,6 +2,7 @@
 
 - name: Install LearningLocker's dependencies
   include: dependencies.yml
+  become: True
 
 
 - name: Check if LearningLocker is already installed
