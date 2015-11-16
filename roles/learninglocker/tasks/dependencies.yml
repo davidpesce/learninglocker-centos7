@@ -63,6 +63,9 @@
   with_items:
     - { var_name: 'proxy', proxy_value: '{{ proxy_env.http_proxy }}' }
     - { var_name: 'https-proxy', proxy_value: '{{ proxy_env.https_proxy }}' }
+  register: npm_return
+  # rc==34 means that the variable wasn't configured, which is ok too.
+  failed_when: npm_return.rc!=0 and npm_return.rc!=34
   tags:
     - configure
     - proxy
