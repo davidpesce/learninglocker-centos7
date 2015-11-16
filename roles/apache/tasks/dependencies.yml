@@ -1,10 +1,17 @@
 ---
 
-
 - name: Install Remi Collet Repository
   yum: name="http://rpms.famillecollet.com/enterprise/remi-release-7.rpm" state=present
   tags:
    - install
+   - repository
+   - remi collet
+
+
+- name: Enable Remi Collet Repository for future updates
+  shell: yum-config-manager --enable remi remi-php56
+  tags:
+   - enable
    - repository
    - remi collet
 
