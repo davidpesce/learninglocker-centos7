@@ -22,8 +22,8 @@
 
 - name: Unset proxies as environment variables
   lineinfile:
-    dest: .bashrc
-    regexp: 'export {{ item.var_name }}'
+    dest: '{{ item[0] }}'
+    regexp: 'export {{ item[1].var_name }}'
     state: absent
     backup: yes
   when: not item[1].proxy_value
