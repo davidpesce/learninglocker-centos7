@@ -1,8 +1,8 @@
 ---
 
-
 - name: Start the Firewall Daemon and enable automatic startup
   shell: "systemctl {{ item }} firewalld.service"
+  ignore_errors: True
   with_items:
     - start
     - enable
@@ -16,6 +16,7 @@
 
 - name: Allow HTTP Access through Firewall
   shell: "{{ item }}"
+  ignore_errors: True
   with_items:
     - "firewall-cmd --permanent --zone=public --add-service=http"
     - "systemctl restart firewalld.service"
