@@ -47,6 +47,30 @@
    - npm
 
 
+- name: Configure proxies in NPM
+  shell: 'npm config set {{ item.var_name }} {{ item.proxy_value }}'
+  when: item.proxy_value  # if it is empty it does not execute it
+  with_items:
+    - { var_name: 'proxy', proxy_value: '{{ proxy_env.http_proxy }}' }
+    - { var_name: 'https-proxy', proxy_value: '{{ proxy_env.https_proxy }}' }
+  tags:
+    - configure
+    - proxy
+    - nmp
+
+
+- name: Make sure that proxies are not configured in NPM
+  shell: 'npm config rm {{ item.var_name }}'
+  when: not item.proxy_value  # if it is empty it does not execute it
+  with_items:
+    - { var_name: 'proxy', proxy_value: '{{ proxy_env.http_proxy }}' }
+    - { var_name: 'https-proxy', proxy_value: '{{ proxy_env.https_proxy }}' }
+  tags:
+    - configure
+    - proxy
+    - nmp
+
+
 - name: Install Bower
   npm: name=bower global=yes
   tags:
@@ -75,12 +99,41 @@
    - centos
 
 
+- name: Download Composer (without proxy)
+  shell: "curl -sS https://getcomposer.org/installer | php"
+  when: not proxy_env.https_proxy
+  tags:
+   - download
+   - composer
+   - global
+
+
+- name: Download Composer (with proxy)
+  shell: "curl --proxy {{ proxy_env.https_proxy }} -sS https://getcomposer.org/installer | php"
+  when: proxy_env.https_proxy
+  ignore_errors: True
+  tags:
+   - download
+   - composer
+   - global
+
+
 - name: Install Composer and set global launch
-  shell: "{{ item }}"
-  with_items:
-    - "curl -sS https://getcomposer.org/installer | php"
-    - "mv composer.phar /usr/local/bin/composer"
+  shell: 'mv {{ ansible_env.HOME }}/composer.phar /usr/local/bin/composer'
   tags:
    - install
+   - composer
+   - global
+
+
+- name: Make composer executable by the user
+  file:
+    path: /usr/local/bin/composer
+    state: file
+    owner: '{{ ansible_env.USER }}'
+    group: '{{ ansible_env.USER }}'
+    mode: ug+x
+  tags:
+   - permissions
    - composer
    - global
