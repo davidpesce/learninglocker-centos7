@@ -1,5 +1,8 @@
 ---
 
+- name: Install LearningLocker's dependencies
+  include: dependencies.yml
+
 
 - name: Check if LearningLocker is already installed
   stat: path="{{ ll_path }}"
